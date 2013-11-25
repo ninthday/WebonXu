@@ -1,0 +1,24 @@
+/* 
+    Document   : myStyle.css
+    Created on : May 1, 2013, 1:18:40 PM
+    Author     : Jeffy_shih
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div.result_content {
+    background-color: #fff;
+    margin: 10px 0px 0px 5px;
+    padding: 10px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+.user-pic {
+    float: left;
+    margin: 0 10px 0 25px;
+}

@@ -8,7 +8,7 @@
 
 div.result_content {
     background-color: #fff;
-    margin: 10px 0px 0px 5px;
+    margin: 10px 0px 0px 0px;
     padding: 10px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);

@@ -2,40 +2,45 @@
 
 require './inc/setup.inc.php';
 require './cls/myPDOConn.Class.php';
-require './cls/PageControl.Class.php';
-require './cls/ShowExistTweet.Class.php';
+require './cls/PosterStatic.Class.php';
 
-$aryQuery = array();
-foreach ($_GET as $key => $value) {
-    if (!empty($value)) {
-        $aryQuery[$key] = $value;
-    }
-}
-
-$intPagesize = 30;
+$strType = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_STRING);
 
 try {
-    $pdoConn = myPDOConn::getInstance();
-    $objShowTweet = new ShowExistTweet($pdoConn);
-    $intNowPage = (int) $aryQuery['pg'];
-    unset($aryQuery['pg']);
-    $objPage = new PageControl($intNowPage, $intPagesize, $objShowTweet->getTotalNum($aryQuery));
+    $pdoConn = \Floodfire\myPDOConn::getInstance('myPDOConnConfig.inc.php');
+    $objPoster = new \Floodfire\TwitterProcess\PosterStatic($pdoConn);
+    switch ($strType) {
+        case 'ptlist':
+            $strLang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING);
+            $strSort = filter_input(INPUT_GET, 'ob', FILTER_SANITIZE_STRING);
+            $aryLang = explode('+', $strLang);
+            $aryRS = $objPoster->getPosterByLang($aryLang, $strSort);
+            $aryList = array();
+            foreach ($aryRS as $row) {
+                array_push($aryList, array(
+                    'from_user' => $row['data_from_user'],
+                    'language' => $row['lang_detection'],
+                    'cnt' => $row['CNT']
+                ));
+            }
+            $aryResult['rsStat'] = true;
+            $aryResult['rsContents'] = $aryList;
+            break;
 
-    $result = $objShowTweet->getTweets($aryQuery, $objPage);
-    
-//    foreach ($result as $row) {
-//        foreach ($row as $key => $value) {
-//            echo $key, '==>', $value, '<br>';
-//        }
-//
-//        echo '---------------------------------------------<br>';
-//    }
-    $aryResultWithPage = array(
-        'page_list' => $objPage->getPagelist(),
-        'query_result' => $result
-    );
-    echo json_encode($aryResultWithPage);
+        case 'pcont':
+            $strUserName = filter_input(INPUT_GET, 'uname',FILTER_SANITIZE_STRING);
+            $strLang =  filter_input(INPUT_GET, 'lang',FILTER_SANITIZE_STRING);
+            $aryTweets = $objPoster->showTweetsByPoster($strUserName, $strLang);
+            $aryResult['rsStat'] = true;
+            $aryResult['rsContents'] = $aryTweets;
+            break;
+        default:
+            break;
+    }
 } catch (Exception $exc) {
-    echo $exc->getMessage();
+    $aryResult['rsStat'] = false;
+    $aryResult['rsContents'] = $exc->getMessage();
 }
+
+echo json_encode($aryResult);
 ?>

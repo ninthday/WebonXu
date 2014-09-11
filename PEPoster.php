@@ -8,9 +8,12 @@ require './inc/setup.inc.php';
         <meta name="description" content="This Website is for Fire and Flood Project in NCCU">
         <meta name="author" content="Ninthday (jeffy@ninthday.info)">
         <title><?php echo _WEB_NAME ?></title>
-        <link href="css/bootstrap.css" rel="stylesheet">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
         <link href="css/myStyle.css" rel="stylesheet">
-        <link href="css/datepicker.css" rel="stylesheet">
         <style type="text/css">
             body {
                 padding-top: 60px;
@@ -29,179 +32,119 @@ require './inc/setup.inc.php';
                 }
             }
         </style>
-        <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="../assets/js/html5shiv.js"></script>
-        <![endif]-->
     </head>
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="#">Flood and Fire</a>
-                    <div class="nav-collapse collapse">
-                        <p class="navbar-text pull-right">
-                            Logged in as <a href="#" class="navbar-link">Username</a>
-                        </p>
-                        <ul class="nav">
-                            <li class="active"><a href="index.php">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                        </ul>
-                    </div><!--/.nav-collapse -->
+                    <a class="navbar-brand" href="#">Flood-Fire Project</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </form>
                 </div>
             </div>
         </div>
 
-        <div class="container">
-            <div class="row-fluid">
-                <div class="span3">
-                    <div class="well sidebar-nav">
-                        <?php include './left_nav_menu.php'; ?>
-                    </div><!--/.well -->
-                </div><!--/span-->
-                <div class="span9">
-                    <div class="well">
-                        <legend>Search Values and Type</legend>
-                        <div class="controls">
-                            <div class="input-prepend">
-                                <span class="add-on">@</span>
-                                <input class="input-small" id="twi_id" type="text" placeholder="Twitter ID">
-                            </div>
-                            &nbsp;<span class="divider">/</span>&nbsp;
-                            <input type="text" id="uname" class="input-medium" placeholder="Username">&nbsp;&nbsp;<span class="divider">/</span>&nbsp;
-                            <input type="text" class="input-small" id="begin_date" placeholder="Begin Date">&nbsp;~&nbsp;<input type="text" class="input-small" id="end_date" placeholder="End Date">
-                        </div>
-                        <div class="control-group">
-                            <label class="checkbox inline">Language:</label> 
-                            <label class="checkbox inline">
-                                <input type="checkbox" name="lang" value="zh-TW"> 繁體中文
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="checkbox" name="lang" value="zh"> 簡體中文
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="checkbox" name="lang" value="en"> 英文
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="checkbox" name="lang" value="ja"> 日文
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="checkbox" name="lang" value="other"> 其他
-                            </label>
-                        </div>
-                        <fieldset>
-                            <div class="control-group">
-                                <label class="checkbox inline">Tweet Type:</label>
-                                <label class="checkbox inline">
-                                    <input type="checkbox" name="type" value="or"> Original
-                                </label>
-                                <label class="checkbox inline">
-                                    <input type="checkbox" name="type" value="rt"> Retweet
-                                </label>
-                                <label class="checkbox inline">
-                                    <input type="checkbox" name="type" value="mt"> Mention
-                                </label>
-                            </div>
-                        </fieldset>
-                        <button id="btn_sch" class="btn btn-primary"><i class="icon-search icon-white"></i>&nbsp;Search</button>
-                    </div>
-                    <div class="btn-toolbar">
-                        <div class="btn-group">
-                            <a class="btn" href="#"><i class="icon-align-justify"></i>&nbsp;Table</a>
-                            <a class="btn" href="#"><i class="icon-th"></i>&nbsp;Grid</a>
-                            <a class="btn" href="#" id="downloadExcelXml"><i class="icon-download-alt"></i>&nbsp;Download Excel</a>
-                        </div>
-                    </div>
-                    <div id="searchResult-table">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Tweet Content</th>
-                                    <th>From User</th>
-                                    <th>Lang.</th>
-                                    <th>Type</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1.</td>
-                                    <td>小英：台灣有民主  陸客就會來: 民主進步黨總統候選人蔡英文今天指出，只要台灣民主持續、幸福安定，大陸觀光客一定會持續再來看台灣的民主，如果台灣與中國愈來愈像，沒有優質民主...</td>
-                                    <td>台灣新聞</td>
-                                    <td>zh-TW</td>
-                                    <td>Original</td>
-                                    <td>2012-01-11 23:45:53</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="searchResult-grid">
-                        <ul class="unstyled" id="queryResult">
-                            <li class="well">
-                                <div class="row">
-                                    <div class="span12"><img class="img-rounded user-pic" src="http://api.twitter.com/1/users/profile_image/twlatestnews">
-                                        <strong>台灣新聞</strong>&nbsp;<small class="muted">@twlatestnews</small><br>
-                                        <small>2012-01-11 23:45:53</small>&nbsp;
-                                        <span class="pull-right"><span class="label label-success">zh-TW</span>&nbsp;<span class="label label-info">Original</span></span>
-                                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li><a href="PresidentialElection.php?top=10">總統大選-Mention</a></li>
+                        <li class="active"><a href="#">總統大選-Post</a></li>
+                        <li><a href="#">Analytics</a></li>
+                        <li><a href="#">Export</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li><a href="">Nav item</a></li>
+                        <li><a href="">Nav item again</a></li>
+                        <li><a href="">One more nav</a></li>
+                        <li><a href="">Another nav item</a></li>
+                        <li><a href="">More navigation</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li><a href="">Nav item again</a></li>
+                        <li><a href="">One more nav</a></li>
+                        <li><a href="">Another nav item</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    <h1 class="sub-header">Poster Static<button class="btn btn-primary pull-right" id="downloadExcelXml"><i class="fa fa-download"></i>&nbsp;Download Excel [ <span id="dl-name">None</span> ]</button></h1>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="chkLanguage[]" value="zh-TW" checked="checked"> 繁中
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="chkLanguage[]" value="zh" checked="checked"> 簡中
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="chkLanguage[]" value="ja" checked="checked"> 日文
+                                    </label>
                                 </div>
-                                <div class="row result_content">
-                                    小英：台灣有民主  陸客就會來: 民主進步黨總統候選人蔡英文今天指出，只要台灣民主持續、幸福安定，大陸觀光客一定會持續再來看台灣的民主，如果台灣與中國愈來愈像，沒有優質民主...
-                                </div>
-                            </li>
-                        </ul>
+                            </div>
+                            <div class="table-responsive">
+                                <table id ="ptlist" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><a href="#" class="list-sort">Poster</a></th>
+                                            <th>Language</th>
+                                            <th><a href="#" class="list-sort">Count</a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div id="searchResult-grid" class="col-md-10 col-md-offset-1">
+                                <h4>Post user:&nbsp;<b><span id="sch-name">None</span></b></h4>
+                                <ul class="list-unstyled" id="queryResult">
+                                    <li class="well">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <img class="img-rounded user-pic" src="http://api.twitter.com/1/users/profile_image/twlatestnews">
+                                                <strong>台灣新聞</strong>&nbsp;<code>@twlatestnews</code><br>
+                                                <small>2012-01-11 23:45:53</small>&nbsp;
+                                                <span class="pull-right"><span class="label label-success">zh-TW</span>&nbsp;<span class="label label-info">Original</span></span>
+                                            </div>
+                                        </div>
+                                        <div class="row result_content">
+                                            小英：台灣有民主  陸客就會來: 民主進步黨總統候選人蔡英文今天指出，只要台灣民主持續、幸福安定，大陸觀光客一定會持續再來看台灣的民主，如果台灣與中國愈來愈像，沒有優質民主...
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pagination pagination-centered">
-                        <ul id="page-list">
-                            <li class="disabled"><a href="#">&laquo;</a></li>
-                            <li class="disabled"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li><a href="#">7</a></li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#">9</a></li>
-                            <li><a href="#">10</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
-                        <input class="input-mini" type="text" id="now-page" value="">
-                    </div>
-                </div><!--/span-->
-            </div><!--/row-->
-            <hr>
-            <footer>
-                <?php include 'footer.php'; ?>
-            </footer>
 
-        </div><!--/.fluid-container-->
+                </div>
+            </div>
+        </div>
 
-        <!-- Le javascript
+        <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap-datepicker.js"></script>
-        <script>
-            $(function() {
-                $("#begin_date").datepicker({
-                    format: 'yyyy-mm-dd'
-                });
-                $("#end_date").datepicker({
-                    format: 'yyyy-mm-dd'
-                });
-            });
-        </script>
-        <script src="js/bootstrap-modal.js"></script>
-        <script src="js/bootstrap-tab.js"></script>
-        <script src="js/data_download.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="./js/PEPoster.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
     </body>
 </html>

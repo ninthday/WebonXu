@@ -82,7 +82,7 @@ require './inc/setup.inc.php';
                     </ul>
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                    <h1 class="sub-header">Poster Static<button class="btn btn-primary pull-right" id="downloadExcelXml"><i class="fa fa-download"></i>&nbsp;Download Excel [ <span id="dl-name">None</span> ]</button></h1>
+                    <h1 class="sub-header">Poster Static<button class="btn btn-primary pull-right" id="downloadExcelXml"><i class="fa fa-download"></i>&nbsp;Download Excel</button></h1>
                     <div class="row">
                         <div class="col-md-3">
                             <div class="panel panel-default">

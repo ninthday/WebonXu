@@ -76,6 +76,33 @@ class PosterStatic {
         }
         return $aryRtn;
     }
+    
+    public function showTweetsByLang($strLang){
+        $aryRtn = array();
+        $aryLang = explode('+', $strLang);
+        $intCount = count($aryLang);
+        $strLangCondition = "'" . implode("', '", $aryLang) . "'";
+        $sql = "SELECT `data_id`, `data_text`, `PresidentialElection`.`data_from_user`, `data_from_user_name`, `lang_detection`, `TWTime` FROM `PresidentialElection` 
+            INNER JOIN (SELECT `data_from_user` FROM `VIEW_PE_Static`
+            WHERE `lang_detection` IN (" . $strLangCondition . ")
+            GROUP BY `data_from_user`
+            HAVING COUNT(*) >= " . $intCount . ") AS `T`
+            ON `T`.`data_from_user` = `PresidentialElection`.`data_from_user`
+            WHERE `lang_detection` IN (" . $strLangCondition . ") ORDER BY `PresidentialElection`.`data_from_user`";
+        
+        try {
+            $stmt = $this->dbh->prepare($sql);
+            $stmt->execute();
+        } catch (PDOException $exc) {
+            throw new Exception($exc->getMessage());
+        }
+        
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            array_push($aryRtn, $row);
+        }
+        
+        return $aryRtn;
+    }
 
     public function __destruct() {
         $this->pdoDB = NULL;

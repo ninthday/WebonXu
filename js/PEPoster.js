@@ -15,7 +15,6 @@ $(document).ready(function() {
         showPostTweet(poster_name, lang, function(result) {
             if (result) {
                 $("#sch-name").text(poster_name);
-                $("#dl-name").text(poster_name);
             }
         });
     });
@@ -32,6 +31,15 @@ $(document).ready(function() {
             return $(this).val();
         }).get().join('+');
         showList(strRtn, strSort);
+    });
+    
+    $("#downloadExcelXml").click(function() {
+        var strRtn = $('input[name="chkLanguage[]"]:checkbox:checked').map(function() {
+            return $(this).val();
+        }).get().join('+');
+        window.open("downlaodPEPoster.php?lang=" + encodeURIComponent(strRtn),
+                "下載分析內容",
+                "toolbar=0,location=0,directories=0,menubar=0,scrollbars=1,width=100,height=100");
     });
 });
 
